@@ -2,8 +2,11 @@ import * as React from "react";
 import { RouteProp } from '@react-navigation/core';
 import { Dialogs } from '@nativescript/core';
 import { FrameNavigationProp } from "react-nativescript-navigation";
-import { StyleSheet } from "react-nativescript";
+import { ListView, StyleSheet } from "react-nativescript";
 import { MainStackParamList } from "./NavigationParamList";
+
+import { FlickService } from '../services/flick.service'
+import { FlickModel } from "../models/flick.model";
 
 type HomeScreenProps = {
     route: RouteProp<MainStackParamList, "Home">,
@@ -11,13 +14,52 @@ type HomeScreenProps = {
 }
 
 export function HomeScreen({ navigation }: HomeScreenProps) {
+    const flicks = FlickService.getFlicks()
+    const cellFactory = (flick: FlickModel) => {
+        return (
+            <gridLayout
+                height="280"
+                borderRadius="10"
+                className="bg-secondary"
+                rows="*, auto, auto"
+                columns="*"
+                margin="5 10"
+                padding="0"
+            >
+                <image row="0" margin="0" stretch="aspectFill" src={flick.image} />
+                <label
+                    row="1"
+                    margin="10 10 0 10"
+                    fontWeight="700"
+                    className="text-primary"
+                    fontSize="18"
+                    text={flick.title}
+                />
+                <label
+                    row="2"
+                    margin="0 10 10 10"
+                    className="text-secondary"
+                    fontSize="14"
+                    textWrap="true"
+                    text={flick.description}
+                />
+            </gridLayout>
+        )
+        {/* <ListView
+                items={flicks}
+                cellFactory={cellFactory}
+                separatorColor="transparent"
+                height="100%"
+            /> */}
+    }
+
     return (
         <flexboxLayout style={styles.container}>
             <label
-                className="fas"
+                className="osr"
                 style={styles.text}
             >
-                &#xf135; Hello World!
+                Hello World!!!!
             </label>
             <button
                 style={styles.button}
@@ -27,7 +69,7 @@ export function HomeScreen({ navigation }: HomeScreenProps) {
             </button>
             <button
                 style={styles.button}
-                onTap={() => navigation.navigate('Secondary')}
+                onTap={() => navigation.navigate('Secondary', {})}
             >
                 Go to next screen
             </button>
@@ -40,6 +82,7 @@ const styles = StyleSheet.create({
         height: "100%",
         flexDirection: "column",
         justifyContent: "center",
+        alignItems: "center"
     },
     text: {
         textAlignment: "center",

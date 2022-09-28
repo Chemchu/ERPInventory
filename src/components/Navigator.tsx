@@ -14,11 +14,11 @@ export const mainStackNavigator = () => (
                 headerStyle: {
                     backgroundColor: "white",
                 },
-                headerShown: true,
+                headerShown: false,
             }}
         >
             <StackNavigator.Screen
-                name="Home"
+                name="ERPInventory"
                 component={HomeScreen}
             />
             <StackNavigator.Screen
