@@ -5,8 +5,8 @@ import { FrameNavigationProp } from "react-nativescript-navigation";
 import { ListView, StyleSheet } from "react-nativescript";
 import { MainStackParamList } from "./NavigationParamList";
 
-import { FlickService } from '../services/flick.service'
-import { FlickModel } from "../models/flick.model";
+import { InventarioService } from "../services/inventario.service";
+import { InventarioModel } from "../models/inventario.model";
 
 type HomeScreenProps = {
     route: RouteProp<MainStackParamList, "Home">,
@@ -14,8 +14,8 @@ type HomeScreenProps = {
 }
 
 export function HomeScreen({ navigation }: HomeScreenProps) {
-    const flicks = FlickService.getFlicks()
-    const cellFactory = (flick: FlickModel) => {
+    const inventarios = InventarioService.getInventarios()
+    const cellFactory = (inventario: InventarioModel) => {
         return (
             <gridLayout
                 height="280"
@@ -24,16 +24,16 @@ export function HomeScreen({ navigation }: HomeScreenProps) {
                 rows="*, auto, auto"
                 columns="*"
                 margin="5 10"
-                padding="0"
+                padding="2rem"
             >
-                <image row="0" margin="0" stretch="aspectFill" src={flick.image} />
+                {/* <image row="0" margin="0" stretch="aspectFill" src={inventario.image} /> */}
                 <label
                     row="1"
                     margin="10 10 0 10"
-                    fontWeight="700"
+                    fontWeight="600"
                     className="text-primary"
                     fontSize="18"
-                    text={flick.title}
+                    text={new Date(Number(inventario.createdAt)).toLocaleDateString()}
                 />
                 <label
                     row="2"
@@ -41,38 +41,21 @@ export function HomeScreen({ navigation }: HomeScreenProps) {
                     className="text-secondary"
                     fontSize="14"
                     textWrap="true"
-                    text={flick.description}
+                    text={`Por ${inventario.empleado.nombre} (${inventario.empleado.dni})`}
                 />
             </gridLayout>
         )
-        {/* <ListView
-                items={flicks}
-                cellFactory={cellFactory}
-                separatorColor="transparent"
-                height="100%"
-            /> */}
+
     }
 
     return (
         <flexboxLayout style={styles.container}>
-            <label
-                className="osr"
-                style={styles.text}
-            >
-                Hello World!!!!
-            </label>
-            <button
-                style={styles.button}
-                onTap={() => Dialogs.alert("Tapped!")}
-            >
-                Tap me for an alert
-            </button>
-            <button
-                style={styles.button}
-                onTap={() => navigation.navigate('Secondary', {})}
-            >
-                Go to next screen
-            </button>
+            <ListView
+                items={inventarios}
+                cellFactory={cellFactory}
+                separatorColor="transparent"
+                height="100%"
+            />
         </flexboxLayout>
     );
 }

@@ -12,7 +12,8 @@ export const mainStackNavigator = () => (
             initialRouteName="Home"
             screenOptions={{
                 headerStyle: {
-                    backgroundColor: "white",
+                    backgroundColor: "#39C498",
+                    color: "white"
                 },
                 headerShown: false,
             }}
